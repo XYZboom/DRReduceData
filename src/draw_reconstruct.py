@@ -6,16 +6,12 @@ from matplotlib.figure import Figure
 
 def draw(df: pd.DataFrame, probs=None, vert=True, vert_stats=False):
     if probs is None:
-        probs = ['1.0', '0.75', '0.5', '0.25', '0']
-    prob_labels = {
-        '0': 'w/o',
-        '1.0': 'w',
-    }
+        probs = ['w', 'w/o']
     np.random.seed(0)
     colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
     df.columns = ['_'.join(col).strip() for col in df.columns.values]
     stats = [
-        ('P', 'Predict Times'),
+        ('P', 'Query Times'),
         ('T', 'Time'),
         ('R', 'Remain Tokens'),
         # ('S', 'Speed(token/s)')
@@ -23,7 +19,7 @@ def draw(df: pd.DataFrame, probs=None, vert=True, vert_stats=False):
     stat_label_map = {
         'T': 'Seconds'
     }
-    col_str = 'S p{p} + Latra Loop_{stat}'
+    col_str = '{p}_{stat}'
     _figs = dict()
     for stat_i, (stat, stat_label) in enumerate(stats):
         cols = []
@@ -35,7 +31,7 @@ def draw(df: pd.DataFrame, probs=None, vert=True, vert_stats=False):
         ax.boxplot(
             cols,
             widths=0.5,
-            tick_labels=[prob_labels.get(_l, _l) for _l in probs],
+            tick_labels=[_l for _l in probs],
             flierprops=dict(marker='None'),
             vert=vert,
         )
@@ -63,19 +59,19 @@ if __name__ == '__main__':
         engine='openpyxl',
         engine_kwargs=dict(data_only=True)
     )
-    fig = draw(df)
+    # fig = draw(df)
     # fig.savefig('reconstruct.pdf')
 
     df2 = pd.read_excel(
         "reconstruct.xlsx",
         header=[0, 1],
-        skiprows=[16, 20, ],
+        skiprows=[15, 19, ],
         # nrows=18,
         engine='openpyxl',
         engine_kwargs=dict(data_only=True)
     )
     plt.rcParams['font.size'] = 16
-    figs = draw(df2, probs=['1.0', '0'], vert=False)
+    figs = draw(df2, vert=False)
     for name in figs:
         fig: Figure = figs[name]
         fig.show()
