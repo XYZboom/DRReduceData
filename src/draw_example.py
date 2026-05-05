@@ -36,10 +36,14 @@ if __name__ == '__main__':
                 force_text=(0.2, 0.5),  # 文本间排斥力
                 )
 
-    plt.xlabel('Predict times')
-    plt.ylabel('Remain tokens')
+    plt.xlabel('Number of Query Invocations', fontsize=20)
+    plt.ylabel('Reduced Size (tokens)', fontsize=20)
 
-    plt.legend()
+    plt.tick_params(axis='both', which='major', labelsize=16)
+
+    plt.legend(title='(X, Y) = (Number of Query Invocations, Reduced Size)',
+               title_fontsize=13, fontsize=12)
+
     plt.grid(True, linestyle='--', alpha=0.6)
 
     plt.tight_layout()

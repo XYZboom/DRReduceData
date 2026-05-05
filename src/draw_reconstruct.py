@@ -36,10 +36,11 @@ def draw(df: pd.DataFrame, probs=None, vert=True, vert_stats=False):
             vert=vert,
         )
         if not vert:
-            ax.set_ylabel('Reconstruct Dependencies')
+            # ax.set_ylabel('Reconstruct Dependencies')
             x_label = stat_label_map.get(stat)
             if x_label is not None:
-                ax.set_xlabel(x_label)
+                pass
+                # ax.set_xlabel(x_label)
         for i, (col, color) in enumerate(zip(cols, colors)):
             scale = 0.06 if vert else 0.08
             x = np.random.normal(i + 1, scale, size=len(col))  # 抖动
@@ -47,7 +48,7 @@ def draw(df: pd.DataFrame, probs=None, vert=True, vert_stats=False):
                 ax.scatter(x, col, alpha=0.7, s=30, color=color, edgecolors='white', linewidth=0.5)
             else:
                 ax.scatter(col, x, alpha=0.7, s=30, color=color, edgecolors='white', linewidth=0.5)
-        ax.set_title(stat_label)
+        # ax.set_title(stat_label)
         _figs[stat] = _fig
     return _figs
 
